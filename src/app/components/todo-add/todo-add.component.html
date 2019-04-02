@@ -1,0 +1,24 @@
+<!-- Todo Add -->
+<h4>Add a new Todo</h4>
+
+<div class="input-group mb-3">
+  <input
+    #task
+    type="text"
+    class="form-control"
+    placeholder="Task"
+    aria-label="Task"
+    aria-describedby="basic-addon2"
+  />
+  <div class="input-group-append">
+    <button
+      (click)="handleClick(task.value)"
+      class="btn btn-primary"
+      type="button"
+      id="button-addon2"
+    >
+      Add to List
+    </button>
+  </div>
+</div>
+<hr />
