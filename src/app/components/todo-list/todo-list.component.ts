@@ -14,6 +14,10 @@ export class TodoListComponent implements OnInit {
   constructor(private todoService: TodoService) {}
 
   ngOnInit() {
+    this.updateView();
+  }
+
+  updateView() {
     this.todoService.getTodos().subscribe(
       res => {
         this.todoList = res;
@@ -25,20 +29,23 @@ export class TodoListComponent implements OnInit {
   }
 
   handleCheck(item) {
-    this.todoService
-      .updateTodo(item)
-      .subscribe(
-        data => console.log('success', data),
-        error => console.log('error', error)
-      );
+    this.todoService.updateTodo(item).subscribe(
+      data => {
+        console.log('success', data);
+        this.updateView();
+      },
+      error => console.log('error', error)
+    );
   }
 
   deleteItem(id) {
-    this.todoService
-      .deleteTodo(id)
-      .subscribe(
-        data => console.log('success', data),
-        error => console.log('error', error)
-      );
+    this.todoService.deleteTodo(id).subscribe(
+      data => {
+        console.log('success', data);
+        this.updateView();
+      },
+      error => console.log('error', error)
+    );
+    this.updateView();
   }
 }
