@@ -13,6 +13,8 @@ export class TodoListComponent implements OnInit {
 
   constructor(private todoService: TodoService) {}
 
+  // TODO: All methods for displaying total todo list should be moved into AppComponent?
+  // Because the full list is impacted by the Add, while Complete and Delete just affect the list
   ngOnInit() {
     this.updateView();
   }
@@ -26,6 +28,10 @@ export class TodoListComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  onNewTodoAdd() {
+    this.updateView();
   }
 
   handleCheck(item) {
