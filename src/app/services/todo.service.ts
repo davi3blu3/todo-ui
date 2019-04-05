@@ -23,7 +23,13 @@ export class TodoService {
     return this.httpClient.post<TodoItem>(apiUrl, payload);
   }
 
-  public updateTodo(todo: TodoItem) {}
+  public updateTodo(todo: TodoItem) {
+    const apiUrl = `${this.apiRoot}api/todo/${todo.id}`;
+    console.log('update called', todo);
+    return this.httpClient.put<any>(apiUrl, todo);
+  }
 
-  public deleteTodo(id: number) {}
+  public deleteTodo(id: number) {
+    const apiUrl = `${this.apiRoot}api/todo/${id}`;
+  }
 }

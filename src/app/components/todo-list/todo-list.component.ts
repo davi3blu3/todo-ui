@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { TodoService } from './../../services/todo.service';
 import { TodoItem } from './../../data/todo-item';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-todo-list',
@@ -23,5 +22,14 @@ export class TodoListComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  handleCheck(item) {
+    this.todoService
+      .updateTodo(item)
+      .subscribe(
+        data => console.log('success', data),
+        error => console.log('error', error)
+      );
   }
 }
