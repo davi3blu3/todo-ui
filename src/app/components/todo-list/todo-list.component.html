@@ -24,7 +24,9 @@
       </th>
       <td [class.strike-text]="item.isComplete">{{ item.name }}</td>
       <td>
-        <button class="btn btn-danger ml-2">Delete</button>
+        <button (click)="deleteItem(item.id)" class="btn btn-danger ml-2">
+          Delete
+        </button>
       </td>
     </tr>
   </tbody>

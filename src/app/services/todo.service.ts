@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { TodoItem } from './../data/todo-item';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,11 +24,12 @@ export class TodoService {
 
   public updateTodo(todo: TodoItem) {
     const apiUrl = `${this.apiRoot}api/todo/${todo.id}`;
-    console.log('update called', todo);
-    return this.httpClient.put<any>(apiUrl, todo);
+    return this.httpClient.put<Response>(apiUrl, todo);
   }
 
   public deleteTodo(id: number) {
     const apiUrl = `${this.apiRoot}api/todo/${id}`;
+    console.log('delete called');
+    return this.httpClient.delete<Response>(apiUrl);
   }
 }

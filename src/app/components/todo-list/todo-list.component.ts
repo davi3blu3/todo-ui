@@ -32,4 +32,13 @@ export class TodoListComponent implements OnInit {
         error => console.log('error', error)
       );
   }
+
+  deleteItem(id) {
+    this.todoService
+      .deleteTodo(id)
+      .subscribe(
+        data => console.log('success', data),
+        error => console.log('error', error)
+      );
+  }
 }
