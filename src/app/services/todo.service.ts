@@ -1,35 +1,46 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, OnInit } from '@angular/core';
 
+import { ApiService } from './api.service';
 import { TodoItem } from './../data/todo-item';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TodoService {
-  private apiRoot = 'https://localhost:5001/';
+export class TodoService implements OnInit {
+  private todoList: BehaviorSubject<TodoItem[]> = new BehaviorSubject<
+    TodoItem[]
+  >(null);
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private apiService: ApiService) {}
 
-  public getTodos() {
-    const apiURL = `${this.apiRoot}api/todo`;
-    return this.httpClient.get<TodoItem[]>(apiURL);
+  ngOnInit() {
+    console.log('todo service initialized');
+    this.updateTodoList();
   }
 
-  public createTodo(task: string) {
-    const apiUrl = `${this.apiRoot}api/todo`;
-    const payload = new TodoItem(task, false);
-    return this.httpClient.post<TodoItem>(apiUrl, payload);
+  observeTodos() {
+    return this.todoList.asObservable();
   }
 
-  public updateTodo(todo: TodoItem) {
-    const apiUrl = `${this.apiRoot}api/todo/${todo.id}`;
-    return this.httpClient.put<Response>(apiUrl, todo);
+  updateTodoList() {
+    this.apiService.getAllTodos().subscribe(data => {
+      console.log('todo service updateTodoList was called');
+      console.log('data:', data);
+      this.todoList.next(data);
+    });
   }
 
-  public deleteTodo(id: number) {
-    const apiUrl = `${this.apiRoot}api/todo/${id}`;
-    console.log('delete called');
-    return this.httpClient.delete<Response>(apiUrl);
-  }
+  // Called from Todo-List component
+
+  // Called from Todo-Add component
+  // public addNewTodo(task: string) {
+  //   this.apiService.postTodo(task).subscribe(
+  //     data => {
+  //       this.todoList.push(data);
+  //       console.log('task was added to todoList:', data);
+  //     },
+  //     error => console.log('error', error)
+  //   );
+  // }
 }

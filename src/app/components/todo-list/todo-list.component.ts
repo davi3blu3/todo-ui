@@ -1,5 +1,7 @@
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 
+import { ApiService } from './../../services/api.service';
 import { TodoService } from './../../services/todo.service';
 import { TodoItem } from './../../data/todo-item';
 
@@ -13,45 +15,16 @@ export class TodoListComponent implements OnInit {
 
   constructor(private todoService: TodoService) {}
 
-  // TODO: All methods for displaying total todo list should be moved into AppComponent?
+  // TODO: All methods for displaying total todo list should be moved into AppComponent? or TodoService?
   // Because the full list is impacted by the Add, while Complete and Delete just affect the list
   ngOnInit() {
-    this.updateView();
+    this.todoService.observeTodos().subscribe(data => {
+      this.todoList = data;
+    });
+    console.log('component todoList:', this.todoList);
   }
 
-  updateView() {
-    this.todoService.getTodos().subscribe(
-      res => {
-        this.todoList = res;
-      },
-      error => {
-        console.log(error);
-      }
-    );
-  }
+  onCheckToggle(item) {}
 
-  onNewTodoAdd() {
-    this.updateView();
-  }
-
-  handleCheck(item) {
-    this.todoService.updateTodo(item).subscribe(
-      data => {
-        console.log('success', data);
-        this.updateView();
-      },
-      error => console.log('error', error)
-    );
-  }
-
-  deleteItem(id) {
-    this.todoService.deleteTodo(id).subscribe(
-      data => {
-        console.log('success', data);
-        this.updateView();
-      },
-      error => console.log('error', error)
-    );
-    this.updateView();
-  }
+  onDeleteClick(id) {}
 }

@@ -10,7 +10,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of todoList">
+    <tr *ngFor="let item of (todoList | async)">
       <th scope="row">{{ item.id }}</th>
       <th scope="row">
         <input
@@ -19,12 +19,12 @@
           value=""
           id="defaultCheck1"
           [(ngModel)]="item.isComplete"
-          (change)="handleCheck(item)"
+          (change)="onCheckToggle(item)"
         />
       </th>
       <td [class.strike-text]="item.isComplete">{{ item.name }}</td>
       <td>
-        <button (click)="deleteItem(item.id)" class="btn btn-danger ml-2">
+        <button (click)="onDeleteClick(item.id)" class="btn btn-danger ml-2">
           Delete
         </button>
       </td>

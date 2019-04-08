@@ -6,8 +6,10 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import { TodoService } from 'src/app/services/todo.service';
 import { Observable } from 'rxjs';
+
+import { ApiService } from './../../services/api.service';
+import { TodoService } from 'src/app/services/todo.service';
 
 @Component({
   selector: 'app-todo-add',
@@ -18,18 +20,11 @@ export class TodoAddComponent implements OnInit {
   @ViewChild('task') task: ElementRef;
   @Output() todoAdded: EventEmitter<any> = new EventEmitter();
 
-  constructor(private todoService: TodoService) {}
+  constructor(private apiService: ApiService) {}
 
   ngOnInit() {}
 
-  handleClick(task) {
-    this.todoService.createTodo(task).subscribe(
-      data => {
-        console.log('success', data);
-        this.todoAdded.emit(task);
-      },
-      error => console.log('error', error)
-    );
+  onAddClick(task) {
     this.task.nativeElement.value = '';
   }
 }
