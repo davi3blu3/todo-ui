@@ -1,31 +1,27 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 import { AppComponent } from './app.component';
+import { TodoService } from './services/todo.service';
 
 describe('AppComponent', () => {
+  let mockTodoService;
+  let fixture: ComponentFixture<AppComponent>;
+
   beforeEach(async(() => {
+    mockTodoService = jasmine.createSpyObj('todoService', ['getAllTodos']);
+
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
+      declarations: [AppComponent],
+      providers: [{ provide: TodoService, useValue: mockTodoService }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    });
+    fixture = TestBed.createComponent(AppComponent);
   }));
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'TodoApp'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('TodoApp');
-  });
-
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+  it('should initialize calling getAllTodos', () => {
     fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to TodoApp!');
+
+    expect(mockTodoService.getAllTodos).toHaveBeenCalled();
   });
 });
