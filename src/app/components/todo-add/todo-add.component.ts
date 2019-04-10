@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { TodoService } from 'src/app/services/todo.service';
 import { take } from 'rxjs/operators';
@@ -17,7 +10,6 @@ import { take } from 'rxjs/operators';
 })
 export class TodoAddComponent implements OnInit {
   @ViewChild('task') task: ElementRef;
-  @Output() todoAdded: EventEmitter<any> = new EventEmitter();
 
   constructor(private todoService: TodoService) {}
 

@@ -37,7 +37,7 @@ export class TodoService {
   }
 
   public updateSubscription(newList: TodoItem[]) {
-    newList.sort((a, b) => (a.id > b.id ? 1 : -1));
+    newList.sort((a, b) => a.id - b.id);
     this.todoList.next(newList);
   }
 }
