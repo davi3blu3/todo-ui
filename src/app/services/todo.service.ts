@@ -1,46 +1,38 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs';
 
-import { ApiService } from './api.service';
-import { TodoItem } from './../data/todo-item';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { TodoItem } from '../data/todo-item';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TodoService implements OnInit {
-  private todoList: BehaviorSubject<TodoItem[]> = new BehaviorSubject<
-    TodoItem[]
-  >(null);
+export class TodoService {
+  private apiUrl = 'https://localhost:5001/api/todo';
+  public todoList = new BehaviorSubject<TodoItem[]>([]);
 
-  constructor(private apiService: ApiService) {}
+  constructor(private httpClient: HttpClient) {}
 
-  ngOnInit() {
-    console.log('todo service initialized');
-    this.updateTodoList();
-  }
-
-  observeTodos() {
-    return this.todoList.asObservable();
-  }
-
-  updateTodoList() {
-    this.apiService.getAllTodos().subscribe(data => {
-      console.log('todo service updateTodoList was called');
-      console.log('data:', data);
+  public getAllTodos() {
+    const endpoint = `${this.apiUrl}`;
+    this.httpClient.get<TodoItem[]>(endpoint).subscribe(data => {
       this.todoList.next(data);
     });
   }
 
-  // Called from Todo-List component
+  public postTodo(task: string) {
+    const endpoint = `${this.apiUrl}`;
+    const payload = new TodoItem(task, false);
+    return this.httpClient.post<TodoItem[]>(endpoint, payload);
+  }
 
-  // Called from Todo-Add component
-  // public addNewTodo(task: string) {
-  //   this.apiService.postTodo(task).subscribe(
-  //     data => {
-  //       this.todoList.push(data);
-  //       console.log('task was added to todoList:', data);
-  //     },
-  //     error => console.log('error', error)
-  //   );
-  // }
+  public updateTodo(todo: TodoItem) {
+    const endpoint = `${this.apiUrl}/${todo.id}`;
+    return this.httpClient.put<TodoItem[]>(endpoint, todo);
+  }
+
+  public deleteTodo(id: number) {
+    const endpoint = `${this.apiUrl}/${id}`;
+    return this.httpClient.delete<TodoItem[]>(endpoint);
+  }
 }
