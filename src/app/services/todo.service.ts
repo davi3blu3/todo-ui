@@ -16,7 +16,7 @@ export class TodoService {
   public getAllTodos() {
     const endpoint = `${this.apiUrl}`;
     this.httpClient.get<TodoItem[]>(endpoint).subscribe(data => {
-      this.todoList.next(data);
+      this.updateSubscription(data);
     });
   }
 
@@ -34,5 +34,10 @@ export class TodoService {
   public deleteTodo(id: number) {
     const endpoint = `${this.apiUrl}/${id}`;
     return this.httpClient.delete<TodoItem[]>(endpoint);
+  }
+
+  public updateSubscription(newList: TodoItem[]) {
+    newList.sort((a, b) => (a.id > b.id ? 1 : -1));
+    this.todoList.next(newList);
   }
 }

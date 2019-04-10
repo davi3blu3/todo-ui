@@ -31,7 +31,7 @@ export class TodoListComponent implements OnInit {
   onCheckToggle(todo) {
     this.todoService.updateTodo(todo).subscribe(
       data => {
-        this.todoService.todoList.next(data);
+        this.todoService.updateSubscription(data);
       },
       error => {
         console.log('error:', error);
@@ -42,7 +42,7 @@ export class TodoListComponent implements OnInit {
   onDeleteClick(todoId) {
     this.todoService.deleteTodo(todoId).subscribe(
       data => {
-        this.todoService.todoList.next(data);
+        this.todoService.updateSubscription(data);
       },
       error => {
         console.log('error:', error);

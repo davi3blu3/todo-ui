@@ -11,8 +11,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of todoList">
-      <th scope="row">{{ item.id }}</th>
+    <tr *ngFor="let item of todoList; index as i">
+      <th scope="row">{{ i + 1 }}</th>
       <th scope="row">
         <input
           class="form-check-input mx-auto"

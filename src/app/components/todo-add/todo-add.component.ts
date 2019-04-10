@@ -27,7 +27,7 @@ export class TodoAddComponent implements OnInit {
     this.task.nativeElement.value = '';
     this.todoService.postTodo(task).subscribe(
       data => {
-        this.todoService.todoList.next(data);
+        this.todoService.updateSubscription(data);
       },
       error => {
         console.log('error:', error);
